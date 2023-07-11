@@ -1,0 +1,100 @@
+.logo {
+    position: fixed;
+    top: 25px;
+    left: 25px;
+    display: block;
+    z-index: 1000;
+    transition: all 250ms linear;
+
+}
+
+.logo img {
+    height: 80px;
+    width: auto;
+    display: block;
+    transition: filter 250ms 700ms linear;
+
+}
+
+.logo:hover {
+    outline: 5px solid wheat;
+    border-radius: 50px;
+}
+
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+
+::-webkit-scrollbar-track {
+    background: rgb(84, 84, 84);
+
+}
+
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 153, 0, 0.8);
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(255, 153, 0);
+}
+
+html {
+    border-top: 2px solid rgb(255, 153, 0);
+
+
+}
+
+body {
+
+    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(backr.jpg);
+    background-position: center;
+    background-size: auto;
+
+
+
+    font-family: 'Lato', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-align: center;
+}
+
+#cveng {
+    display: block;
+    margin: 0px auto;
+}
+
+#cvhun {
+    display: none;
+    margin: 0px auto;
+}
+
+#cvbutton {
+    font-size: 25px;
+    box-shadow: 0 10px 20px rgba(255, 255, 255, 0.40), 0 6px 6px rgba(215, 215, 215, 0.40);
+    border: 3px solid whitesmoke;
+    outline: 0;
+    align-items: center;
+    background: 0 0;
+    border-radius: 4px;
+    cursor: pointer;
+    color: whitesmoke;
+    justify-content: center;
+    line-height: 1.5;
+    overflow: hidden;
+    padding: 12px 16px;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    transition: all .14s ease-out;
+    white-space: nowrap;
+}
+
+#cvbutton:hover {
+    box-shadow: 4px 4px 0 #fffefe;
+    transform: translate(-4px, -4px);
+}
+
+#cvbutton:hover:focus-visible {
+    outline-offset: 1px;
+}

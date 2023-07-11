@@ -1,0 +1,106 @@
+body {
+    background: linear-gradient(90deg, rgb(189, 189, 189) 0%, rgba(254, 212, 4, 0.656) 50%, rgb(189, 189, 189) 100%);
+}
+
+.site-wrapper {
+    border-top: 2px solid rgba(255, 153, 0, 0.8);
+
+
+}
+
+.logo {
+    position: fixed;
+    top: 25px;
+    left: 25px;
+    display: block;
+    z-index: 1000;
+    transition: all 250ms linear;
+}
+
+.logo img {
+    height: 80px;
+    width: auto;
+    display: block;
+    transition: filter 250ms 700ms linear;
+}
+
+.logo:hover {
+    outline: 5px solid wheat;
+    border-radius: 50px;
+}
+
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+
+::-webkit-scrollbar-track {
+    background: rgb(84, 84, 84);
+
+}
+
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 153, 0, 0.8);
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(255, 153, 0);
+}
+
+.kijelzo {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: rgba(0, 0, 0, 0.1);
+    text-align: right;
+    min-height: 100px;
+}
+
+#kisKijelzo {
+    min-height: 50px;
+    font-size: 1.9rem;
+}
+
+#nagyKijelzo {
+    min-height: 50px;
+    font-size: 2.1rem;
+}
+
+.container-fluid {
+    padding: 10px;
+    text-align: center;
+    margin-top: 5%;
+    max-width: 400px;
+    border: 2px solid black;
+    box-shadow: 8px 8px 20px black;
+
+}
+
+.gomba {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.0);
+    font-size: 1.3rem;
+}
+
+.gomb {
+    padding: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.gomba:hover {
+    color: white;
+    border: white 1px solid;
+    background-color: rgba(0, 0, 0, 0.5);
+
+}
+
+#egyenlo {
+    color: white;
+    background-color: rgba(7, 207, 7, 0.7);
+
+}
+
+.korbegomb {
+    background-color: rgba(0, 0, 0, 0.15);
+}

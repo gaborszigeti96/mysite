@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="cv.css">
+    <title>CV</title>
+</head>
+
+<body>
+    <a href="/ReferProjekt/index.html" class="logo" target="_self">
+        <img src="logo.png" alt="az oldal logoja">
+
+
+    </a>
+    <button type="button" id="cvbutton">HUN</button>
+    <iframe id="cveng" src="Szigeti_Gabor_CV_Eng.pdf#toolbar=1&navpanes=0&scrollbar=1" width="60%" height="800px"
+        style="border:none"></iframe>
+
+    <iframe id="cvhun" src="Szigeti_Gabor_CV_Hun (1).pdf#toolbar=1&navpanes=0&scrollbar=1" width="60%" height="800px"
+        style="border:none"></iframe>
+
+    <script>
+        cvbutton.addEventListener("click", cvchange);
+        function cvchange() {
+            if (cvbutton.innerHTML == "HUN") {
+                document.getElementById("cvbutton").innerHTML = "ENG"
+                document.getElementById("cveng").style.display = "none"
+                document.getElementById("cvhun").style.display = "block"
+
+            }
+            else if (cvbutton.innerHTML == "ENG") {
+                cvbutton.innerHTML = "HUN"
+                document.getElementById("cveng").style.display = "block"
+                document.getElementById("cvhun").style.display = "none"
+            }
+        }
+    </script>
+</body>
+
+</html>

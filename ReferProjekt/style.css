@@ -1,0 +1,139 @@
+.site-wrapper {
+    border-top: 2px solid rgb(255, 153, 0);
+
+
+}
+
+
+
+body {
+    min-height: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.87), rgba(0, 0, 0, 0.87)), url(backr.jpg);
+    background-position: center;
+    background-size: auto;
+
+
+    font-family: 'Lato', sans-serif;
+    -webkit-font-smoothing: antialiased;
+
+}
+
+h1 {
+    margin-top: 20px;
+}
+
+h1,
+h3,
+p {
+    text-align: center;
+    color: whitesmoke;
+
+}
+
+p {
+    text-align: justify;
+}
+
+
+
+
+* {
+    box-sizing: border-box;
+}
+
+
+nav {
+    position: relative;
+    padding-bottom: 32px;
+}
+
+
+
+ul {
+    padding: 15px;
+    margin: 0;
+    list-style: none;
+    display: flex;
+
+
+
+
+
+}
+
+a {
+    margin: 0 40px 0 0;
+    opacity: .7;
+    transition: all 0.4s ease;
+
+}
+
+
+
+a:hover {
+    opacity: 0.9;
+    text-decoration: underline rgb(255, 153, 0);
+
+}
+
+a:active {
+    opacity: 1;
+}
+
+li:last-child {
+    margin-right: 0px;
+}
+
+
+
+a {
+    text-decoration: none;
+    color: #fff;
+    text-transform: uppercase;
+    display: block;
+    font-weight: 600;
+    letter-spacing: .2em;
+    font-size: 2rem;
+}
+
+
+
+
+#menus {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+    width: 100%;
+
+}
+
+.line {
+    text-decoration: underline rgb(255, 153, 0);
+}
+
+
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+
+::-webkit-scrollbar-track {
+    background: rgb(84, 84, 84);
+
+}
+
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 153, 0, 0.6);
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(255, 153, 0);
+}
+
+.about {
+    margin-bottom: 150px;
+}

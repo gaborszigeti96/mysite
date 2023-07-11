@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake</title>
+
+    <style>
+        body {
+            background: rgb(255, 201, 0);
+            background: linear-gradient(103deg, rgba(255, 201, 0, 0.5075280112044818) 0%, rgba(200, 200, 200, 0.8044467787114846) 100%);
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+
+        ::-webkit-scrollbar-track {
+            background: rgb(84, 84, 84);
+
+        }
+
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 153, 0, 0.8);
+        }
+
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgb(255, 153, 0);
+        }
+
+        html {
+            border-top: 2px solid rgba(255, 153, 0, 0.8);
+
+
+        }
+
+        #snakeboard {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #score {
+            text-align: center;
+            font-size: 50px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        #reset {
+            font-size: 25px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+            border: 3px solid black;
+            outline: 0;
+            align-items: center;
+            background: 0 0;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-flex;
+            position: absolute;
+            bottom: 100px;
+            flex-shrink: 0;
+            justify-content: center;
+            line-height: 1.5;
+            overflow: hidden;
+            padding: 12px 16px;
+            text-decoration: none;
+            text-overflow: ellipsis;
+            transition: all .14s ease-out;
+            white-space: nowrap;
+        }
+
+        #reset:hover {
+            box-shadow: 4px 4px 0 #000;
+            transform: translate(-4px, -4px);
+        }
+
+        #reset:hover:focus-visible {
+            outline-offset: 1px;
+        }
+
+
+
+        .logo {
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            display: block;
+            z-index: 1000;
+            transition: all 250ms linear;
+
+        }
+
+        .logo img {
+            height: 80px;
+            width: auto;
+            display: block;
+            transition: filter 250ms 700ms linear;
+
+        }
+
+        .logo:hover {
+            outline: 5px solid wheat;
+            border-radius: 50px;
+        }
+
+        #info {
+            background-color: rgba(0, 0, 0, 0.23);
+            max-width: 20%;
+            padding: 20px;
+            margin-top: 50px;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 10px 10px 10px black;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="site-wrapper">
+        <a href="/ReferProjekt/index.html" class="logo" target="_self">
+            <img src="logo.png" alt="az oldal logoja">
+        </a>
+        <div id="score">Score: 0</div>
+        <div id="info">
+            <p>Move with the arrow keys./Mozgás a nyíl billentyűkkel.</p>
+            <p>Click the reset button to start over!/Kattints a reset gombra az újrakezdéshez!</p>
+            <p>Click on the logo to go to the main page!/
+                Kattints logóra a főoldalhoz!</p>
+        </div>
+        <canvas id="snakeboard" width="600" height="600"></canvas>
+        <button type="button" id="reset" onclick=" window.location.reload()">Reset</button>
+
+
+        <script>
+            const board_border = "black";
+            const board_background = "gray";
+            const snake_col = "orange";
+            const snake_border = "black";
+
+            let snake = [
+                { x: 300, y: 300 },
+                { x: 290, y: 300 },
+                { x: 280, y: 300 },
+                { x: 270, y: 300 },
+                { x: 260, y: 300 }
+            ]
+            //pontszám
+            let score = 0;
+
+            let randomszin;
+
+            // igaz ha irányt váltunk
+            let changing_direction = false;
+            // x kordinátán a sebesség
+            let dx = 10;
+            // y kordinátán a sebesség  
+            let dy = 0;
+            //kaja
+            let food_x;
+            let food_y;
+
+
+            const snakeboard = document.getElementById("snakeboard");
+            // 2 ds rajzkörnyezet
+            const snakeboard_ctx = snakeboard.getContext("2d");
+            // játék kezdete
+            main();
+            //kaja generálása
+            gen_food();
+            // figyel hogy történik-e gombnyómás majd futtatja az irányváltó függvényünket
+            document.addEventListener("keydown", change_direction);
+
+            // imsételt main funció a játék folyamatos futásához 
+            function main() {
+                if (has_game_ended()) {
+                    alert("Game Over! Pontjaid: " + score)
+                    return;
+                }
+
+                changing_direction = false;
+                setTimeout(function onTick() {
+                    clearCanvas();
+                    drawFood();
+                    move_snake();
+                    drawSnake();
+                    // újra
+                    main()
+                }, 100);
+            }
+
+
+
+            // a keret kirajzolása
+            function clearCanvas() {
+                //  háttérszín választás
+                snakeboard_ctx.fillStyle = board_background;
+                //  keret színe
+                snakeboard_ctx.strokeStyle = board_border;
+                // egy téglalap a jatéktér köré
+                snakeboard_ctx.fillRect(0, 0, snakeboard.width, snakeboard.height);
+                // egy keret a játéktér köré
+                snakeboard_ctx.strokeRect(0, 0, snakeboard.width, snakeboard.height);
+            }
+
+            // kirajzolja a snaket a canvas-ba
+            function drawSnake() {
+                // mindegyik részét kirajzolja
+                snake.forEach(drawSnakePart)
+            }
+
+            // snake részeinek kirajzolása
+            function drawSnakePart(snakePart) {
+
+                // a snake részeinek színe
+                snakeboard_ctx.fillStyle = snake_col;
+                // a snake részeinek kerete
+                snakeboard_ctx.strokestyle = snake_border;
+                //egy téglalap ami meghatározza a snake részeinek helyét 
+                snakeboard_ctx.fillRect(snakePart.x, snakePart.y, 10, 10);
+                // a snake részének keretének kirajzolása
+                snakeboard_ctx.strokeRect(snakePart.x, snakePart.y, 10, 10);
+            }
+
+
+            function move_snake() {
+                //új fejet kap a kigyó
+                const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+                //a fejét a kigyó elejére teszi
+                snake.unshift(head);
+                //ha a snake feje a kajával azonos kordinátán van akkor "evés" történt
+                const has_eaten_food = snake[0].x === food_x && snake[0].y === food_y;
+                // ha evett
+                if (has_eaten_food) {
+                    // növeli a score-t
+                    score += 10;
+                    // ki íradja a pontokat
+                    document.getElementById('score').innerHTML = "Score: " + score;
+                    // újra generál kaját
+                    gen_food();
+                } else {
+                    //az utolsó része a kigyónak eltűnik
+                    snake.pop();
+                }
+            }
+            // új rész
+
+
+
+
+            function change_direction(event) {
+                //megadjuk az iránygombok számát
+                const LEFT_KEY = 37;
+                const RIGHT_KEY = 39;
+                const UP_KEY = 38;
+                const DOWN_KEY = 40;
+                //a leütött billentyűt tároljuk egy változóban
+                if (changing_direction) return;
+                changing_direction = true;
+                const keyPressed = event.keyCode;
+                //a  változók true értéket adnak, ha az adott irányba tart a kigyó
+                const goingUp = dy === -10;
+                const goingDown = dy === 10;
+                const goingRight = dx === 10;
+                const goingLeft = dx === -10;
+                //bal nyil lenyomásakor, ha nem jobbra megy balra fog fordulni
+                if (keyPressed === LEFT_KEY && !goingRight) {
+                    dx = -10;
+                    dy = 0;
+                }
+                //felfelé nyil lenyomásakor, ha nem lefelé megy fel fog menni a kigyó
+                if (keyPressed === UP_KEY && !goingDown) {
+                    dx = 0;
+                    dy = -10;
+                }
+                //jobbra nyil lenyomásakor, ha nem balra megy jobbra fog fordulni  
+                if (keyPressed === RIGHT_KEY && !goingLeft) {
+                    dx = 10;
+                    dy = 0;
+                }
+                //lefelé nyil lenyomásakor, ha nem felfelé megy balra fog menni a kigyó
+                if (keyPressed === DOWN_KEY && !goingUp) {
+                    dx = 0;
+                    dy = 10;
+                }
+            }
+
+            //új rész
+            function has_game_ended() {
+                for (let i = 4; i < snake.length; i++) {
+                    //igaz értéket fog adni, ha a snake eléri a saját testét.
+                    const has_collided = snake[i].x === snake[0].x && snake[i].y === snake[0].y
+                    if (has_collided)
+
+                        return true
+                }
+                //vissza adja, hogy mikor ütközik a kigyó
+                const hitLeftWall = snake[0].x < 0;
+                const hitRightWall = snake[0].x > snakeboard.width - 10;
+                const hitToptWall = snake[0].y < 0;
+                const hitBottomWall = snake[0].y > snakeboard.height - 10;
+
+                return hitLeftWall || hitRightWall || hitToptWall || hitBottomWall
+            }
+            //új rész
+            function random_food(min, max) {
+                return Math.round((Math.random() * (max - min) + min) / 10) * 10;
+            }
+            // színváltós kaja *.*
+
+            function gen_food() {
+                randomszin = Math.floor(Math.random() * 16777215).toString(16);
+                //random kordináták a kajának
+                food_x = random_food(0, snakeboard.width - 10);
+                food_y = random_food(0, snakeboard.height - 10);
+                //ha a kaját a kigyóra generálná újra generálja
+                snake.forEach(function has_snake_eaten_food(part) {
+                    const has_eaten = part.x == food_x && part.y == food_y;
+                    if (has_eaten) gen_food();
+                });
+            }
+
+            function drawFood() {
+
+
+                snakeboard_ctx.fillStyle = "#" + randomszin;
+                snakeboard_ctx.strokeStyle = "black";
+                snakeboard_ctx.fillRect(food_x, food_y, 10, 10);
+                snakeboard_ctx.strokeRect(food_x, food_y, 10, 10);
+            }
+
+        </script>
+
+    </main>
+</body>
+
+</html>
