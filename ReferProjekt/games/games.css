@@ -10,6 +10,11 @@
 
 }
 
+
+.tictacborder {
+    background-color: rgba(82, 113, 126, 0.7);
+}
+
 ::-webkit-scrollbar {
     width: 4px;
 }
